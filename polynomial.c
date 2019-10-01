@@ -4,12 +4,9 @@ poly createnode()
 poly t;
 t=(poly)malloc(sizeof(struct Poly));
 if(t)
-{
-    printf("createnode:Memory allocation successfull\n");
     return t;
-}
 printf("createnode:Memory allocation failed ");
-return NULL;
+exit(EXIT_FAILURE);
 }
 hnode createheader()
 {
@@ -17,13 +14,12 @@ hnode t;
 t=(hnode)malloc(sizeof(struct Hnode));
 if(t)
 {
-    printf("createheader:Memory allocation successfull\n");
     t->info=0;
     t->link=NULL;        
     return t;
 }
 printf("createheader:Memory allocation failed ");
-return NULL;
+exit(EXIT_FAILURE);
 }
 void create(hnode h)
 {
@@ -67,16 +63,17 @@ void display(hnode h)
 poly t=h->link;
 if(!(h->link))
 {
-printf("Polynomial has no terms!!");
+printf("Polynomial has no terms!!\n");
 return;
 }
-while(t)
+for(int i=1;i<=(h->info);i++)
 {
-if(t->coeff > 0)
-{
-    printf("+");
-}
-printf("%dx^%dy^%d ",t->coeff,t->px,t->py);
+if(t->coeff > 0 && i > 1)
+    printf("+ ");
+if(t->px == 0 && t->py == 0)
+    printf("%d ",t->coeff);
+else
+    printf("%dx^%dy^%d ",t->coeff,t->px,t->py);
 t=t->link;
 }
 }
@@ -92,4 +89,60 @@ res+=t->coeff*pow(x,t->px)*pow(y,t->py);
 t=t->link;
 }
 return res;
+}
+void add(hnode h1,hnode h2,hnode h3)
+{
+poly p1,p2,p3;
+p1=h1->link;
+while(p1)
+{
+	p2=h2->link;
+	while(p2)
+	{
+		if((p1->px==p2->px) && (p1->py==p2->py))
+		{	
+            if(p1->coeff+p2->coeff)
+			{    
+                p3=createnode();
+			    p3->coeff=p1->coeff+p2->coeff;
+			    p3->px=p1->px;
+			    p3->py=p1->py;
+			    insertRear(h3,p3);
+			    break;
+            }
+		}
+		p2=p2->link;
+	}
+	if(!p2)
+	{
+		p3=createnode();
+		p3->coeff=p1->coeff;
+		p3->px=p1->px;
+		p3->py=p1->py;
+		insertRear(h3,p3);
+	}
+	p1=p1->link;
+}
+p2=h2->link;
+while(p2)
+{
+	p1=h1->link;
+	while(p1)
+	{
+		if((p1->px==p2->px) && (p1->py==p2->py))
+		{	
+            break;
+		}
+		p1=p1->link;
+	}
+	if(!p1)
+	{
+		p3=createnode();
+		p3->coeff=p2->coeff;
+		p3->px=p2->px;
+		p3->py=p2->py;
+		insertRear(h3,p3);
+	}
+	p2=p2->link;
+}
 }

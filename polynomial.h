@@ -19,4 +19,4 @@ void create(hnode);
 void insertRear(hnode,poly);
 void display(hnode);
 int evaluate(hnode);
-hnode add(hnode,hnode);
+void add(hnode,hnode,hnode);
