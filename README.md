@@ -1,6 +1,6 @@
 # polynomial-project
-my second git project
-To make it work on linux systems:
+## my second git project
+### To make it work on linux systems:
 chmod +x Polynomial
-To run it:
+### To run it:
 ./Polynomial
